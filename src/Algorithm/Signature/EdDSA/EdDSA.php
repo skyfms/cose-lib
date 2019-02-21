@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -21,7 +19,7 @@ use Cose\Key\OkpKey;
 
 final class EdDSA implements Signature
 {
-    public function sign(string $data, Key $key): string
+    public function sign($data, Key $key)
     {
         $key = $this->handleKey($key);
         Assertion::true($key->isPrivate(), 'The key is not private');
@@ -37,7 +35,7 @@ final class EdDSA implements Signature
         }
     }
 
-    public function verify(string $data, Key $key, string $signature): bool
+    public function verify($data, Key $key, $signature)
     {
         $key = $this->handleKey($key);
 
@@ -49,7 +47,7 @@ final class EdDSA implements Signature
         }
     }
 
-    public static function identifier(): int
+    public static function identifier()
     {
         return Algorithms::COSE_ALGORITHM_EdDSA;
     }

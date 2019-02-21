@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -15,5 +13,5 @@ namespace Cose\Algorithm;
 
 interface Algorithm
 {
-    public static function identifier(): int;
+    public static function identifier();
 }

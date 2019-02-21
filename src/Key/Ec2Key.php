@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -20,28 +18,28 @@ use FG\ASN1\Universal\Sequence;
 
 class Ec2Key extends Key
 {
-    public const CURVE_P256 = 1;
-    public const CURVE_P384 = 2;
-    public const CURVE_P521 = 3;
+    const CURVE_P256 = 1;
+    const CURVE_P384 = 2;
+    const CURVE_P521 = 3;
 
-    private const SUPPORTED_CURVES = [
+    const SUPPORTED_CURVES = [
         self::CURVE_P256,
         self::CURVE_P384,
         self::CURVE_P521,
     ];
 
-    private const DATA_CURVE = -1;
-    private const DATA_X = -2;
-    private const DATA_Y = -3;
-    private const DATA_D = -4;
+    const DATA_CURVE = -1;
+    const DATA_X = -2;
+    const DATA_Y = -3;
+    const DATA_D = -4;
 
-    private const NAMED_CURVE_OID = [
+    const NAMED_CURVE_OID = [
         self::CURVE_P256 => '1.2.840.10045.3.1.7', // NIST P-256 / secp256r1
         self::CURVE_P384 => '1.3.132.0.34', // NIST P-384 / secp384r1
         self::CURVE_P521 => '1.3.132.0.35', // NIST P-521 / secp521r1
     ];
 
-    private const CURVE_KEY_LENGTH = [
+    const CURVE_KEY_LENGTH = [
         self::CURVE_P256 => 32,
         self::CURVE_P384 => 48,
         self::CURVE_P521 => 66,
@@ -59,34 +57,34 @@ class Ec2Key extends Key
         Assertion::inArray((int) $data[self::DATA_CURVE], self::SUPPORTED_CURVES, 'The curve is not supported');
     }
 
-    public function x(): string
+    public function x()
     {
         return $this->get(self::DATA_X);
     }
 
-    public function y(): string
+    public function y()
     {
         return $this->get(self::DATA_Y);
     }
 
-    public function isPrivate(): bool
+    public function isPrivate()
     {
         return \array_key_exists(self::DATA_D, $this->getData());
     }
 
-    public function d(): string
+    public function d()
     {
         Assertion::true($this->isPrivate(), 'The key is not private');
 
         return $this->get(self::DATA_D);
     }
 
-    public function curve(): int
+    public function curve()
     {
         return (int) $this->get(self::DATA_CURVE);
     }
 
-    public function asPEM(): string
+    public function asPEM()
     {
         Assertion::false($this->isPrivate(), 'Unsupported for private keys.');
 
@@ -101,17 +99,17 @@ class Ec2Key extends Key
         return $this->pem('PUBLIC KEY', $der->getBinary());
     }
 
-    private function getCurveOid(): string
+    private function getCurveOid()
     {
         return self::NAMED_CURVE_OID[$this->curve()];
     }
 
-    public function getUncompressedCoordinates(): string
+    public function getUncompressedCoordinates()
     {
         return "\x04".$this->x().$this->y();
     }
 
-    private function pem(string $type, string $der): string
+    private function pem($type, $der)
     {
         return \Safe\sprintf("-----BEGIN %s-----\n", mb_strtoupper($type)).
             chunk_split(base64_encode($der), 64, "\n").

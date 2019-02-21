@@ -16,13 +16,13 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": ">=5.6",
         "ext-json": "*",
         "ext-openssl": "*",
         "ext-mbstring": "*",
         "fgrosse/phpasn1": "^2.1",
-        "thecodingmachine/safe": "^0.1",
-        "beberlei/assert": "^3.0"
+        "thecodingmachine/safe": "dev-php5@dev",
+        "beberlei/assert": "^2.9"
     },
     "autoload": {
         "psr-4": {

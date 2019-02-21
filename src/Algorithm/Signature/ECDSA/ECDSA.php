@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -20,11 +18,11 @@ use Cose\Key\Key;
 
 abstract class ECDSA implements Signature
 {
-    public function sign(string $data, Key $key): string
+    public function sign($data, Key $key)
     {
     }
 
-    public function verify(string $data, Key $key, string $signature): bool
+    public function verify($data, Key $key, $signature)
     {
         $key = $this->handleKey($key);
 
@@ -39,7 +37,7 @@ abstract class ECDSA implements Signature
         return $key;
     }
 
-    abstract protected function getCurve(): int;
+    abstract protected function getCurve();
 
-    abstract protected function getHashAlgorithm(): int;
+    abstract protected function getHashAlgorithm();
 }

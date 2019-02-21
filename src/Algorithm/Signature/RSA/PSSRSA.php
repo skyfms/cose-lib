@@ -24,7 +24,7 @@ use Jose\Component\Core\Util\Hash;
  */
 abstract class PSSRSA implements Signature
 {
-    public function sign(string $data, Key $key): string
+    public function sign($data, Key $key)
     {
         $key = $this->handleKey($key);
         $modulusLength = \mb_strlen($key->n(), '8bit');
@@ -36,7 +36,7 @@ abstract class PSSRSA implements Signature
         return self::convertIntegerToOctetString($signature, $modulusLength);
     }
 
-    public function verify(string $data, Key $key, string $signature): bool
+    public function verify($data, Key $key, $signature)
     {
         $key = $this->handleKey($key);
         $modulusLength = \mb_strlen($key->n(), '8bit');
@@ -59,7 +59,7 @@ abstract class PSSRSA implements Signature
 
     abstract protected function getHashAlgorithm(): Hash;
 
-    private function convertIntegerToOctetString(BigInteger $x, int $xLen): string
+    private function convertIntegerToOctetString(BigInteger $x, $xLen)
     {
         $x = $x->toBytes();
         if (\mb_strlen($x, '8bit') > $xLen) {
@@ -72,7 +72,7 @@ abstract class PSSRSA implements Signature
     /**
      * MGF1.
      */
-    private function getMGF1(string $mgfSeed, int $maskLen, Hash $mgfHash): string
+    private function getMGF1($mgfSeed, $maskLen, Hash $mgfHash)
     {
         $t = '';
         $count = \ceil($maskLen / $mgfHash->getLength());
@@ -87,7 +87,7 @@ abstract class PSSRSA implements Signature
     /**
      * EMSA-PSS-ENCODE.
      */
-    private function encodeEMSAPSS(string $message, int $modulusLength, Hash $hash): string
+    private function encodeEMSAPSS($message, $modulusLength, Hash $hash)
     {
         $emLen = ($modulusLength + 1) >> 3;
         $sLen = $hash->getLength();
@@ -110,7 +110,7 @@ abstract class PSSRSA implements Signature
     /**
      * EMSA-PSS-VERIFY.
      */
-    private function verifyEMSAPSS(string $m, string $em, int $emBits, Hash $hash): bool
+    private function verifyEMSAPSS($m, $em, $emBits, Hash $hash)
     {
         $emLen = ($emBits + 1) >> 3;
         $sLen = $hash->getLength();

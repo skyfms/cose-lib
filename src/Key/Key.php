@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -17,11 +15,11 @@ use Assert\Assertion;
 
 class Key
 {
-    public const TYPE = 1;
-    public const KID = 2;
-    public const ALG = 3;
-    public const KEY_OPS = 4;
-    public const BASE_IV = 5;
+    const TYPE = 1;
+    const KID = 2;
+    const ALG = 3;
+    const KEY_OPS = 4;
+    const BASE_IV = 5;
 
     /**
      * @var array
@@ -59,7 +57,7 @@ class Key
         return $this->data[self::TYPE];
     }
 
-    public function alg(): int
+    public function alg()
     {
         return (int) $this->get(self::ALG);
     }
@@ -69,7 +67,7 @@ class Key
         return $this->data;
     }
 
-    public function has(int $key): bool
+    public function has($key)
     {
         return \array_key_exists($key, $this->data);
     }
@@ -77,7 +75,7 @@ class Key
     /**
      * @return mixed
      */
-    public function get(int $key)
+    public function get($key)
     {
         Assertion::keyExists($this->data, $key, \Safe\sprintf('The key has no data at index %d', $key));
 

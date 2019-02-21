@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -18,7 +16,7 @@ namespace Cose\Utils;
  */
 class Asn1
 {
-    private static function length(int $len): string
+    private static function length($len)
     {
         if ($len < 128) {
             return \chr($len);
@@ -33,17 +31,17 @@ class Asn1
         return \chr(0x80 | \mb_strlen($lenBytes, '8bit')).$lenBytes;
     }
 
-    public static function sequence(string $contents): string
+    public static function sequence($contents)
     {
         return "\x30".self::length(\mb_strlen($contents, '8bit')).$contents;
     }
 
-    public static function oid(string $encoded): string
+    public static function oid($encoded)
     {
         return "\x06".self::length(\mb_strlen($encoded, '8bit')).$encoded;
     }
 
-    public static function unsignedInteger(string $bytes): string
+    public static function unsignedInteger($bytes)
     {
         $len = \mb_strlen($bytes, '8bit');
 
@@ -67,19 +65,19 @@ class Asn1
         return "\x02".self::length(\mb_strlen($bytes, '8bit')).$bytes;
     }
 
-    public static function bitString(string $bytes): string
+    public static function bitString($bytes)
     {
         $len = \mb_strlen($bytes, '8bit') + 1;
 
         return "\x03".self::length($len)."\x00".$bytes;
     }
 
-    public static function nullValue(): string
+    public static function nullValue()
     {
         return "\x05\x00";
     }
 
-    public static function pem(string $type, string $der): string
+    public static function pem($type, $der)
     {
         return \Safe\sprintf("-----BEGIN %s-----\n", mb_strtoupper($type)).
             chunk_split(base64_encode($der), 64, "\n").

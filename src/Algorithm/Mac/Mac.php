@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -18,7 +16,7 @@ use Cose\Key\Key;
 
 interface Mac extends Algorithm
 {
-    public function hash(string $data, Key $key): string;
+    public function hash($data, Key $key);
 
-    public function verify(string $data, Key $key, string $signature): bool;
+    public function verify($data, Key $key, $signature);
 }

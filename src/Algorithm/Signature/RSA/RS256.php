@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -17,12 +15,12 @@ use Cose\Algorithms;
 
 final class RS256 extends RSA
 {
-    public static function identifier(): int
+    public static function identifier()
     {
         return Algorithms::COSE_ALGORITHM_RS256;
     }
 
-    protected function getHashAlgorithm(): int
+    protected function getHashAlgorithm()
     {
         return OPENSSL_ALGO_SHA256;
     }

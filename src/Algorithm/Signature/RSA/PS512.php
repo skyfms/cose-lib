@@ -18,7 +18,7 @@ use Jose\Component\Core\Util\Hash;
 
 final class PS512 extends PSSRSA
 {
-    public static function identifier(): int
+    public static function identifier()
     {
         return Algorithms::COSE_ALGORITHM_PS512;
     }

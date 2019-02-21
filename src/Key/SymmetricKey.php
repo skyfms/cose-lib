@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -17,7 +15,7 @@ use Assert\Assertion;
 
 class SymmetricKey extends Key
 {
-    public const DATA_K = -1;
+    const DATA_K = -1;
 
     public function __construct(array $data)
     {
@@ -26,7 +24,7 @@ class SymmetricKey extends Key
         Assertion::keyExists($data, self::DATA_K, 'Invalid symmetric key. The parameter "k" is missing');
     }
 
-    public function k(): string
+    public function k()
     {
         return $this->get(self::DATA_K);
     }

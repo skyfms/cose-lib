@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -17,17 +15,17 @@ use Cose\Algorithms;
 
 final class ES512 extends ECDSA
 {
-    public static function identifier(): int
+    public static function identifier()
     {
         return Algorithms::COSE_ALGORITHM_ES512;
     }
 
-    protected function getHashAlgorithm(): int
+    protected function getHashAlgorithm()
     {
         return OPENSSL_ALGO_SHA512;
     }
 
-    protected function getCurve(): int
+    protected function getCurve()
     {
         return 3;
     }

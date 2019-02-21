@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -17,17 +15,17 @@ use Cose\Algorithms;
 
 final class HS512 extends Hmac
 {
-    public static function identifier(): int
+    public static function identifier()
     {
         return Algorithms::COSE_ALGORITHM_HS512;
     }
 
-    protected function getHashAlgorithm(): string
+    protected function getHashAlgorithm()
     {
         return 'sha512';
     }
 
-    protected function getSignatureLength(): int
+    protected function getSignatureLength()
     {
         return 512;
     }

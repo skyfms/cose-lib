@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -17,21 +15,21 @@ use Assert\Assertion;
 
 class OkpKey extends Key
 {
-    public const CURVE_X25519 = 4;
-    public const CURVE_X448 = 5;
-    public const CURVE_ED25519 = 6;
-    public const CURVE_ED448 = 7;
+    const CURVE_X25519 = 4;
+    const CURVE_X448 = 5;
+    const CURVE_ED25519 = 6;
+    const CURVE_ED448 = 7;
 
-    private const SUPPORTED_CURVES = [
+    const SUPPORTED_CURVES = [
         self::CURVE_X25519,
         self::CURVE_X448,
         self::CURVE_ED25519,
         self::CURVE_ED448,
     ];
 
-    private const DATA_CURVE = -1;
-    private const DATA_X = -2;
-    private const DATA_D = -4;
+    const DATA_CURVE = -1;
+    const DATA_X = -2;
+    const DATA_D = -4;
 
     public function __construct(array $data)
     {
@@ -42,24 +40,24 @@ class OkpKey extends Key
         Assertion::inArray((int) $data[self::DATA_CURVE], self::SUPPORTED_CURVES, 'The curve is not supported');
     }
 
-    public function x(): string
+    public function x()
     {
         return $this->get(self::DATA_X);
     }
 
-    public function isPrivate(): bool
+    public function isPrivate()
     {
         return \array_key_exists(self::DATA_D, $this->getData());
     }
 
-    public function d(): string
+    public function d()
     {
         Assertion::true($this->isPrivate(), 'The key is not private');
 
         return $this->get(self::DATA_D);
     }
 
-    public function curve(): int
+    public function curve()
     {
         return (int) $this->get(self::DATA_CURVE);
     }

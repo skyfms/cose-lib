@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -18,7 +16,7 @@ use Cose\Key\Key;
 
 abstract class Hmac implements Mac
 {
-    public function hash(string $data, Key $key): string
+    public function hash($data, Key $key)
     {
         $this->checKey($key);
         $signature = hash_hmac($this->getHashAlgorithm(), $data, $key->get(-1), true);
@@ -26,18 +24,18 @@ abstract class Hmac implements Mac
         return mb_substr($signature, 0, $this->getSignatureLength() / 8, '8bit');
     }
 
-    public function verify(string $data, Key $key, string $signature): bool
+    public function verify($data, Key $key, $signature)
     {
         return hash_equals($this->hash($data, $key), $signature);
     }
 
-    private function checKey(Key $key): void
+    private function checKey(Key $key)
     {
         Assertion::eq($key->type(), 4, 'Invalid key. Must be of type symmetric');
         Assertion::true($key->has(-1), 'Invalid key. The value of the key is missing');
     }
 
-    abstract protected function getHashAlgorithm(): string;
+    abstract protected function getHashAlgorithm();
 
-    abstract protected function getSignatureLength(): int;
+    abstract protected function getSignatureLength();
 }

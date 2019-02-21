@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -22,18 +20,18 @@ use FG\ASN1\Universal\Sequence;
 
 class RsaKey extends Key
 {
-    private const DATA_N = -1;
-    private const DATA_E = -2;
-    private const DATA_D = -3;
-    private const DATA_P = -4;
-    private const DATA_Q = -5;
-    private const DATA_DP = -6;
-    private const DATA_DQ = -7;
-    private const DATA_QI = -8;
-    private const DATA_OTHER = -9;
-    private const DATA_RI = -10;
-    private const DATA_DI = -11;
-    private const DATA_TI = -12;
+    const DATA_N = -1;
+    const DATA_E = -2;
+    const DATA_D = -3;
+    const DATA_P = -4;
+    const DATA_Q = -5;
+    const DATA_DP = -6;
+    const DATA_DQ = -7;
+    const DATA_QI = -8;
+    const DATA_OTHER = -9;
+    const DATA_RI = -10;
+    const DATA_DI = -11;
+    const DATA_TI = -12;
 
     public function __construct(array $data)
     {
@@ -43,52 +41,52 @@ class RsaKey extends Key
         Assertion::keyExists($data, self::DATA_E, 'Invalid RSA key. The exponent is missing');
     }
 
-    public function n(): string
+    public function n()
     {
         return $this->get(self::DATA_N);
     }
 
-    public function e(): string
+    public function e()
     {
         return $this->get(self::DATA_E);
     }
 
-    public function d(): string
+    public function d()
     {
         Assertion::true($this->isPrivate(), 'The key is not private.');
 
         return $this->get(self::DATA_D);
     }
 
-    public function p(): string
+    public function p()
     {
         Assertion::true($this->isPrivate(), 'The key is not private.');
 
         return $this->get(self::DATA_P);
     }
 
-    public function q(): string
+    public function q()
     {
         Assertion::true($this->isPrivate(), 'The key is not private.');
 
         return $this->get(self::DATA_Q);
     }
 
-    public function dP(): string
+    public function dP()
     {
         Assertion::true($this->isPrivate(), 'The key is not private.');
 
         return $this->get(self::DATA_DP);
     }
 
-    public function dQ(): string
+    public function dQ()
     {
         Assertion::true($this->isPrivate(), 'The key is not private.');
 
         return $this->get(self::DATA_DQ);
     }
 
-    public function QInv(): string
+    public function QInv()
     {
         Assertion::true($this->isPrivate(), 'The key is not private.');
 
@@ -102,28 +100,28 @@ class RsaKey extends Key
         return $this->get(self::DATA_OTHER);
     }
 
-    public function rI(): string
+    public function rI()
     {
         Assertion::true($this->isPrivate(), 'The key is not private.');
 
         return $this->get(self::DATA_RI);
     }
 
-    public function dI(): string
+    public function dI()
     {
         Assertion::true($this->isPrivate(), 'The key is not private.');
 
         return $this->get(self::DATA_DI);
     }
 
-    public function tI(): string
+    public function tI()
     {
         Assertion::true($this->isPrivate(), 'The key is not private.');
 
         return $this->get(self::DATA_TI);
     }
 
-    public function hasPrimes(): bool
+    public function hasPrimes()
     {
         return $this->has(self::DATA_P) && $this->has(self::DATA_Q);
     }
@@ -136,7 +134,7 @@ class RsaKey extends Key
         ];
     }
 
-    public function hasExponents(): bool
+    public function hasExponents()
     {
         return $this->has(self::DATA_DP) && $this->has(self::DATA_DQ);
     }
@@ -149,22 +147,22 @@ class RsaKey extends Key
         ];
     }
 
-    public function hasCoefficient(): bool
+    public function hasCoefficient()
     {
         return $this->has(self::DATA_QI);
     }
 
-    public function isPublic(): bool
+    public function isPublic()
     {
         return !$this->isPrivate();
     }
 
-    public function isPrivate(): bool
+    public function isPrivate()
     {
         return \array_key_exists(self::DATA_D, $this->getData());
     }
 
-    public function asPem(): string
+    public function asPem()
     {
         Assertion::false($this->isPrivate(), 'Unsupported for private keys.');
         $bitSring = new Sequence(
@@ -183,12 +181,12 @@ class RsaKey extends Key
         return $this->pem('PUBLIC KEY', $der->getBinary());
     }
 
-    private function fromBase64ToInteger(string $value): string
+    private function fromBase64ToInteger($value)
     {
         return gmp_strval(gmp_init(current(unpack('H*', $value)), 16), 10);
     }
 
-    private function pem(string $type, string $der): string
+    private function pem($type, $der)
     {
         return \Safe\sprintf("-----BEGIN %s-----\n", mb_strtoupper($type)).
             chunk_split(base64_encode($der), 64, "\n").

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * The MIT License (MIT)
  *
@@ -22,7 +20,7 @@ class Manager
      */
     private $algorithms = [];
 
-    public function add(Algorithm $algorithm): void
+    public function add(Algorithm $algorithm)
     {
         $identifier = $algorithm::identifier();
         $this->algorithms[$identifier] = $algorithm;
@@ -33,12 +31,12 @@ class Manager
         yield from $this->algorithms;
     }
 
-    public function has(int $identifier): bool
+    public function has($identifier)
     {
         return \array_key_exists($identifier, $this->algorithms);
     }
 
-    public function get(int $identifier): Algorithm
+    public function get($identifier): Algorithm
     {
         Assertion::true($this->has($identifier), 'Unsupported algorithm');
 
